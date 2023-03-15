@@ -1,13 +1,14 @@
 import mysql.connector
 from mysql.connector import Error
 
-def create_server_connection(host_name, user_name, user_password,):
+def create_server_connection(host_name, user_name, user_password,db_name):
     connection = None
     try:
         connection = mysql.connector.connect(
             host = host_name,
             user = user_name,
-            passwd = user_password
+            passwd = user_password,
+            database=db_name
         )
         print("MySQL Database Connection Successful")
     except Error as err:
@@ -56,7 +57,7 @@ days_on_lot integer(50) NOT NULL);
 
 #create sedan table
 create_sedan_table = """
-create table COUPE_MODELS(
+create table SEDAN_MODELS(
 vin_number VARCHAR(12) PRIMARY KEY,
 make VARCHAR(50) NOT NULL,
 model VARCHAR(50) NOT NULL,
@@ -80,8 +81,6 @@ year integer(5) NOT NULL,
 date_of_arrival integer(50) NOT NULL,
 days_on_lot integer(50) NOT NULL);
 """
-
-
 
 #create truck table
 create_truck_table = """
@@ -110,19 +109,16 @@ years_of_experience integer NOT NULL);
 
 #Create Customer Information
 create_customer_information = """
+create table CUSTOMER_INFORMATION(
 full_name VARCHAR(50) PRIMARY KEY,
 address VARCHAR(50) NOT NULL,
-phone_number integer(30) NOT NULL,
+phone_number VARCHAR(50) NOT NULL,
 email VARCHAR(50) NOT NULL,
 birthday VARCHAR(50) NOT NULL,
 social_security_number integer(50) NOT NULL,
-job title VARCHAR(50) NOT NULL, 
+job_title VARCHAR(50) NOT NULL, 
 monthly_income integer(30) NOT NULL);
 """
-
-
-
-
 
 #populate coupe table
 coupe_vehicles = """ 
@@ -214,8 +210,7 @@ customer_information_table = """
 #Queries
 create_database_query = "create database EXOTIC_DEALERSHIP"
 #calling statement
-connection = create_server_connection("localhost", "root", "student")
+connection = create_server_connection("localhost", "root", "student","exotic_dealership")
 #call create_database function to create DB in mySQL
-create_database(connection, create_database_query)
-
+execute_query(connection,create_sedan_table)
 
